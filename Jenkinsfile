@@ -1,32 +1,26 @@
 pipeline {
-    agent any
-
-    stages {
-        stage ('Compile Stage') {
-
-            steps {
-                withMaven(maven : 'maven') {
-                    sh 'mvn clean compile'
-                }
-            }
-        }
-
-        stage ('Testing Stage') {
-
-            steps {
-                withMaven(maven : 'maven') {
-                    sh 'mvn test'
-                }
-            }
-        }
-
-
-        stage ('Deployment Stage') {
-            steps {
-                withMaven(maven : 'maven') {
-                    sh 'mvn deploy'
-                }
-            }
-        }
-    }
+   agent any
+   stages {
+     stage ('compile satge') {
+	   steps {
+	     withMaven {maven: 'apache-maven-3.5.4'} {
+		 sh 'mvn clean compile'
+		}
+		
+	   }
+	   
+	 }
+	   stage ('metrics satge') {
+	   steps {
+	     withMaven {maven: 'apache-maven-3.5.4'} {
+		 sh 'mvn -p metrics pmd:pmd'
+		}
+		
+	   }
+	   
+	 }
+	 
+   }
+   
 }
+
