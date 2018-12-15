@@ -1,4 +1,4 @@
-pipeline {
+peline {
    agent any
    stages {
      stage ('compile satge') {
@@ -10,16 +10,25 @@ pipeline {
 	   }
 	   
 	 }
-	   stage ('metrics satge') {
+	   stage ('Testing Stage') {
 	   steps {
 	     withMaven {maven: 'apache-maven-3.5.4'} {
-		 sh 'mvn -p metrics pmd:pmd'
+		 sh 'mvn test'
 		}
 		
 	   }
 	   
 	 }
-	 
+	 stage ('Package Stage') {
+	   steps {
+	     withMaven {maven: 'apache-maven-3.5.4'} {
+		 sh 'mvn package'
+		}
+		
+	   }
+	   
+	 }
+
    }
    
 }
